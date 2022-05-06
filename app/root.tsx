@@ -15,7 +15,7 @@ import {
 import styles from "./styles/tailwind.css";
 
 import { ChevronLeftIcon, HomeIcon } from "@heroicons/react/solid";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: styles }];
@@ -37,7 +37,7 @@ function Document({
         <Meta />
         <Links />
       </head>
-      <body className="dark:bg-dark">
+      <body className="bg-slate-100 dark:bg-dark">
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -55,6 +55,8 @@ function Layout({
   const matches = useMatches();
   const lastMatch = matches[matches.length - 1];
 
+  const [theme, setTheme] = useState<string>();
+
   useEffect(() => {
     setDarkModeHandler();
     handleDarkMode();
@@ -67,8 +69,10 @@ function Layout({
         window.matchMedia("(prefers-color-scheme: dark)").matches)
     ) {
       document.documentElement.classList.add("dark");
+      setTheme("Dark");
     } else {
       document.documentElement.classList.remove("dark");
+      setTheme("Light");
     }
   };
 
@@ -101,9 +105,11 @@ function Layout({
         if (localStorage.getItem("color-theme") === "light") {
           document.documentElement.classList.add("dark");
           localStorage.setItem("color-theme", "dark");
+          setTheme("Dark");
         } else {
           document.documentElement.classList.remove("dark");
           localStorage.setItem("color-theme", "light");
+          setTheme("Light");
         }
 
         // if NOT set via local storage previously
@@ -120,17 +126,14 @@ function Layout({
   };
 
   return (
-    <div className="p-8 mx-auto max-w-7xl">
+    <div className="p-8 pb-2 mx-auto max-w-7xl">
       <div>
         <div className="flex items-center justify-between h-10">
           <nav className="sm:flex" aria-label="Breadcrumb">
             <ol className="flex items-center space-x-4" role={"list"}>
               <li>
                 <div className="flex">
-                  <Link
-                    to={"/"}
-                    className="text-sm font-medium text-indigo-700 hover:text-indigo-400 dark:text-white"
-                  >
+                  <Link to={"/"} className="breadcrumbs-link">
                     Home
                   </Link>
                 </div>
@@ -139,7 +142,7 @@ function Layout({
                 .filter(match => match.handle && match.handle.breadcrumb)
                 .map((match, index) => (
                   <li key={index}>
-                    <div className="flex text-sm font-medium text-indigo-700 hover:text-indigo-400">
+                    <div className="breadcrumbs-link">
                       <ChevronLeftIcon
                         className="w-5 h-5 mr-2"
                         aria-hidden="true"
@@ -150,40 +153,43 @@ function Layout({
                 ))}
             </ol>
           </nav>
-          <button
-            id="theme-toggle"
-            type="button"
-            className="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 transition-colors duration-500"
-          >
-            <svg
-              id="theme-toggle-dark-icon"
-              className="hidden w-5 h-5"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
+          <div className="flex items-center space-x-2">
+            {theme && (
+              <span className="xs:hidden text-sm text-gray-900 dark:text-l-dark">{`${theme} mode`}</span>
+            )}
+            <button
+              id="theme-toggle"
+              type="button"
+              className="text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 transition-colors duration-500"
             >
-              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-            </svg>
-            <svg
-              id="theme-toggle-light-icon"
-              className="hidden w-5 h-5"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-                fillRule="evenodd"
-                clipRule="evenodd"
-              ></path>
-            </svg>
-          </button>
+              <svg
+                id="theme-toggle-dark-icon"
+                className="hidden w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+              </svg>
+              <svg
+                id="theme-toggle-light-icon"
+                className="hidden w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+            </button>
+          </div>
         </div>
         <div className="mt-2 md:flex md:items-center md:justify-between">
           <div className="flex-1 min-w-0">
-            <h2 className="text-2xl font-bold leading-7 text-gray-900 dark:text-white sm:text-3xl sm:leading-9 sm:truncate mb-4">
-              {lastMatch?.handle?.title?.(lastMatch.params) ?? "Pokémon"}
-            </h2>
+            <h2>{lastMatch?.handle?.title?.(lastMatch.params) ?? "Pokémon"}</h2>
           </div>
         </div>
       </div>
@@ -245,7 +251,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <Document title="Error!">
       <Layout>
-        <div>
+        <div className="dark:text-s-dark">
           <h1>There was an error</h1>
           <p>{error.message}</p>
           <hr />

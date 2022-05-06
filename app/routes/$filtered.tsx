@@ -2,7 +2,7 @@ import { ActionFunction, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Pokemon } from "lib/pokemon";
 import { getAllPokemons } from "~/endpoints/pokemon-fetch";
-import { PokemonElement } from ".";
+import { PokemonElements } from ".";
 import SearchBar from "./searchBar";
 
 export let loader = async ({ params }: { params: any }) => {
@@ -25,14 +25,7 @@ export default () => {
   return (
     <>
       <SearchBar />
-      <ul
-        role="list"
-        className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
-      >
-        {pokemonFiltered?.map((poke, index) => (
-          <PokemonElement poke={poke} key={index} />
-        ))}
-      </ul>
+      <PokemonElements pokemons={pokemonFiltered} />
     </>
   );
 };

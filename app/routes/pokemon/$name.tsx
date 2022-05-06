@@ -32,55 +32,46 @@ export default () => {
       height: data.height,
       weight: data.weight,
       order: data.order,
-      base_experience: data.base_experience
+      "base experience": data.base_experience,
+      abilities: data.abilities,
+      types: data.types
     }),
     [data]
   );
 
   return (
-    <div className="flex flex-col gap-y-10">
+    <div className="grid grid-flow-col">
       <div className="grid xl:grid-cols-2 gap-10">
-        <div className="hover:scale-105 transition duration-200 group flex justify-center items-center">
+        <div className="div-img-details">
           <img
             src={`/pokemonSVG/${data.id}.svg`}
             alt={`${data.name.toLowerCase()}`}
-            className="object-contain pointer-events-none group-hover:opacity-75 max-h-96"
           />
         </div>
         <div>
           <div className="flex flex-col">
-            <div className="my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="my-2 overflow-x-auto sm:-mx-6 lg:-mx-6">
               <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                  <table className="min-w-full divide-y divide-gray-200">
+                <div className="shadow overflow-hidden border-gray-200 rounded-lg">
+                  <table className="min-w-full">
                     <thead className="bg-indigo-900">
                       <tr>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider"
-                        >
-                          Attribute
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider"
-                        >
-                          Value
-                        </th>
+                        <th scope="col">Attribute</th>
+                        <th scope="col">Value</th>
                       </tr>
                     </thead>
                     <tbody>
                       {Object.entries(attributes).map(([key, value], idx) => (
                         <tr
                           key={key}
-                          className={idx % 2 === 0 ? "bg-white" : "bg-slate-50"}
+                          className={
+                            idx % 2 === 0
+                              ? "bg-white dark:box-dark"
+                              : "bg-slate-50 dark:bg-h-dark"
+                          }
                         >
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {key}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-indigo-500">
-                            {value}
-                          </td>
+                          <td className="key-td">{key}</td>
+                          <td className="value-td">{value}</td>
                         </tr>
                       ))}
                     </tbody>

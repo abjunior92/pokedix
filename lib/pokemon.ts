@@ -18,4 +18,6 @@ export interface PokemonDetails {
   name: string;
   weight: number;
   order: number;
+  abilities: string[];
+  types: string[];
 }

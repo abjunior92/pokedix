@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Pokemon, PokemonStructure } from "lib/pokemon";
+import { Pokemon, PokemonDetails, PokemonStructure } from "lib/pokemon";
 
 export async function getPokemons(url: string) {
   const response = await axios.get(`${url}`);
@@ -29,11 +29,28 @@ export async function getAllPokemons(): Promise<PokemonStructure> {
   return pokemonsStructure;
 }
 
-export async function getPokemonDetails(pokemonName: string) {
+export async function getPokemonDetails(
+  pokemonName: string
+): Promise<PokemonDetails> {
   const response = await axios.get(
     `https://pokeapi.co/api/v2/pokemon/${pokemonName}`
   );
-  return response.data;
+
+  let pokemonDetails: PokemonDetails = {
+    height: response.data.height,
+    base_experience: response.data.base_experience,
+    id: response.data.id,
+    name: response.data.name,
+    weight: response.data.weight,
+    order: response.data.order,
+    abilities: response.data.abilities
+      .map((a: { ability: { name: string } }) => a.ability.name)
+      .join(", "),
+    types: response.data.types
+      .map((t: { type: { name: string } }) => t.type.name)
+      .join(", ")
+  };
+  return pokemonDetails;
 }
 
 export async function getPokemonImage(pokemonName: string): Promise<string> {
