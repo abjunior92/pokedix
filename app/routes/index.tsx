@@ -39,25 +39,32 @@ function usePokemonImage(name: string) {
   return image;
 }
 
-export const PokemonElement = ({ poke }: { poke: Pokemon }) => {
+export const PokemonElements = ({ pokemons }: { pokemons: Pokemon[] }) => {
   const location = useLocation();
   // const image = usePokemonImage(poke.name);
+
   return (
-    <li key={poke.url} className="relative">
-      <Link to={{ pathname: `/pokemon/${poke.name}`, search: location.search }}>
-        <div className="hover:scale-110 transition duration-500 group block w-full aspect-w-10 aspect-h-8 rounded-lg overflow-hidden">
-          <img
-            src={`/pokemonSVG/${poke.id}.svg`}
-            // src={`${image}`}
-            alt={""}
-            className="pointer-events-none group-hover:opacity-75 object-contain bg-transparent"
-          />
-        </div>
-        <p className="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none text-center">
-          {poke.name}
-        </p>
-      </Link>
-    </li>
+    <ul
+      role="list"
+      className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
+    >
+      {pokemons?.map(poke => (
+        <li key={poke.url} className="relative">
+          <Link
+            to={{ pathname: `/pokemon/${poke.name}`, search: location.search }}
+          >
+            <div className="div-img-list">
+              <img
+                src={`/pokemonSVG/${poke.id}.svg`}
+                // src={`${image}`}
+                alt={""}
+              />
+            </div>
+            <p className="standard-p">{poke.name}</p>
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 };
 
@@ -89,20 +96,14 @@ export default function Index() {
   );
 
   return (
-    <div className="flex flex-col gap-y-4">
+    <div className="grid grid-flow-row gap-y-4">
       <SearchBar />
-      <ul
-        role="list"
-        className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
-      >
-        {memoizedPokemonList?.map((poke, index) => (
-          <PokemonElement poke={poke} key={index} />
-        ))}
-      </ul>
 
-      <div className="flex flex-row justify-between gap-x-4 items-center py-8 border-t-2">
+      <PokemonElements pokemons={memoizedPokemonList} />
+
+      <div className="flex flex-row justify-between space-x-8 items-center py-8 mt-4 border-t-2 border-indigo-100 dark:border-btn-dark">
         <button
-          className="flex items-center bg-white text-indigo-900 rounded-lg hover:scale-105 transition duration-200 hover:shadow-sm border-2 border-indigo-900 hover:bg-slate-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-900 h-14 sm:w-1/2 justify-center font-semibold sm:text-md disabled:bg-gray-200 disabled:border-none disabled:text-gray-500"
+          className="btn-pagination"
           data-nav-operation="previous"
           onClick={handlePagination}
           disabled={offset === 0}
@@ -110,11 +111,8 @@ export default function Index() {
           <ChevronLeftIcon className="w-6 h-6 mr-2" aria-hidden="true" />
           Previous
         </button>
-        <div>
-          <span></span>
-        </div>
         <button
-          className="flex items-center bg-white text-indigo-900 rounded-lg hover:scale-105 transition duration-200 hover:shadow-sm border-2 border-indigo-900 hover:bg-slate-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-900 h-14 sm:w-1/2 justify-center font-semibold sm:text-md disabled:bg-gray-200 disabled:border-none disabled:text-gray-500"
+          className="btn-pagination"
           data-nav-operation="next"
           onClick={handlePagination}
           disabled={limit >= pokemonData.results.length}

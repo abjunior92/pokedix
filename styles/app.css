@@ -2,8 +2,120 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply font-mono;
+  }
+
+  p {
+    @apply antialiased;
+  }
+
+  img {
+    @apply object-contain pointer-events-none max-h-96 bg-transparent;
+  }
+
+  h2 {
+    @apply text-2xl font-bold leading-7 text-gray-900 dark:text-s-dark sm:text-3xl sm:leading-9 sm:truncate mb-4;
+  }
+
+  table th {
+    @apply px-6 py-3 text-left text-xs font-bold text-white dark:text-s-dark uppercase tracking-wider;
+  }
+}
+
+@layer components {
+  .primary-btn {
+    @apply sm:ml-4 mt-2 sm:mt-0 inline-flex items-center px-3.5 py-3.5 bg-indigo-900 text-white dark:bg-btn-dark dark:text-s-dark rounded-lg shadow-sm hover:bg-indigo-600 dark:hover:bg-btn-l-dark focus:outline-none focus:ring-indigo-500 focus:border-indigo-900 dark:focus:border-btn-dark h-14 sm:w-1/6 justify-center font-semibold sm:text-xl;
+  }
+
+  .primary-input {
+    @apply shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-indigo-900 dark:focus:border-indigo-400 w-full rounded-lg h-14 mt-2 sm:mt-0 dark:box-dark dark:text-s-dark dark:placeholder:text-s-dark;
+  }
+
+  .breadcrumbs-link {
+    @apply flex text-sm font-medium text-indigo-700 hover:text-indigo-400 dark:text-m-dark dark:hover:text-l-dark;
+  }
+
+  .div-img {
+    @apply transition duration-500 flex justify-center items-center aspect-w-10 rounded-lg overflow-hidden hover:scale-110 opacity-75;
+  }
+
+  .div-img-list {
+    @apply div-img aspect-h-8;
+  }
+
+  .div-img-details {
+    @apply div-img aspect-h-8 sm:aspect-h-4;
+  }
+
+  .btn-pagination {
+    @apply flex items-center bg-white text-indigo-900 rounded-lg hover:scale-105 transition duration-200 hover:shadow-sm border-2 border-indigo-900 hover:bg-slate-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-900 h-14 w-1/2 justify-center font-semibold sm:text-base disabled:bg-gray-200 disabled:border-none disabled:text-gray-500 disabled:cursor-not-allowed dark:text-s-dark dark:bg-btn-dark dark:disabled:btn-disabled-dark dark:disabled:btn-disabled-text-dark;
+  }
+
+  .standard-p {
+    @apply mt-2 block text-base font-medium text-gray-900 dark:text-s-dark truncate pointer-events-none text-center;
+  }
+
+  .key-td {
+    @apply px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-s-dark;
+  }
+
+  .value-td {
+    @apply px-6 py-4 whitespace-nowrap text-sm text-indigo-500 dark:text-indigo-400;
+  }
+}
+
 @layer utilities {
   .bg-dark {
     background-color: #22272e;
+  }
+
+  .bg-h-dark {
+    background-color: #252931;
+  }
+
+  .bg-l-dark {
+    background-color: #adbac7;
+  }
+
+  .bg-m-dark {
+    background-color: #768390;
+  }
+
+  .box-dark {
+    background-color: #2d333b;
+  }
+
+  .text-l-dark {
+    color: #adbac7;
+  }
+
+  .text-m-dark {
+    color: #768390;
+  }
+
+  .text-s-dark {
+    @apply text-slate-100;
+  }
+
+  .bg-btn-dark {
+    @apply bg-indigo-900;
+  }
+
+  .bg-btn-l-dark {
+    background-color: #454c56;
+  }
+
+  .btn-disabled-dark {
+    background-color: #373e47;
+  }
+
+  .btn-disabled-text-dark {
+    color: #555d68;
+  }
+
+  .border-btn-dark {
+    border-color: #768390;
   }
 }
