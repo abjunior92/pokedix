@@ -38,7 +38,7 @@
   }
 
   .div-img {
-    @apply transition duration-500 flex justify-center items-center aspect-w-10 rounded-lg overflow-hidden hover:scale-110 opacity-75;
+    @apply transition duration-500 flex justify-center items-center aspect-w-10 rounded-lg overflow-hidden hover:scale-110 hover:opacity-75;
   }
 
   .div-img-list {
