@@ -21,3 +21,8 @@ export interface PokemonDetails {
   abilities: string[];
   types: string[];
 }
+
+export interface PokemonValueUnit {
+  value: number;
+  unit: string;
+}

@@ -1,8 +1,9 @@
 import { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import { Pokemon, PokemonDetails } from "lib/pokemon";
+import { Pokemon, PokemonDetails, PokemonValueUnit } from "lib/pokemon";
 import { useMemo } from "react";
 import { getPokemonDetails } from "~/endpoints/pokemon-fetch";
+import { formatUnits } from "~/utilities/formatUnits";
 
 export let handle = {
   title: (params: { name: string }) => params.name,
@@ -29,8 +30,14 @@ export default () => {
     () => ({
       id: data.id,
       name: data.name,
-      height: data.height,
-      weight: data.weight,
+      height: {
+        value: data.height,
+        unit: "m"
+      },
+      weight: {
+        value: data.weight,
+        unit: "kg"
+      },
       order: data.order,
       "base experience": data.base_experience,
       abilities: data.abilities,
@@ -70,7 +77,11 @@ export default () => {
                         }
                       >
                         <td className="key-td">{key}</td>
-                        <td className="value-td">{value}</td>
+                        <td className="value-td">
+                          {value?.unit
+                            ? formatUnits(value?.value, value?.unit)
+                            : value}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
