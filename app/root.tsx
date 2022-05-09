@@ -24,7 +24,7 @@ export const links: LinksFunction = () => {
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
   title: "Pokémon App!",
-  "og:image": "./preview.png",
+  "og:image": "https://poke-dix.netlify.app/preview.png",
   "og:title": "Pokémon App!",
   "og:url": "https://poke-dix.netlify.app/",
   "og:description": "A simple Pokédex app built with Remix JS",
@@ -34,7 +34,7 @@ export const meta: MetaFunction = () => ({
   "twitter:title": "Pokémon App!",
   "twitter:url": "https://poke-dix.netlify.app/",
   "twitter:description": "A simple Pokédex app built with Remix JS",
-  "twitter:image": "./preview.png",
+  "twitter:image": "https://poke-dix.netlify.app/preview.png",
   "twitter:image:alt": "Pokémon App!",
   "twitter:creator": "Andrea Junior Berselli",
   viewport: "width=device-width,initial-scale=1",
