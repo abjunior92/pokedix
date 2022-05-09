@@ -12,7 +12,7 @@ import {
   useMatches
 } from "@remix-run/react";
 
-import styles from "./styles/app.css";
+import styles from "./styles/tailwind.css";
 
 import { ChevronLeftIcon, HomeIcon } from "@heroicons/react/solid";
 import React, { useCallback, useEffect, useRef, useState } from "react";
