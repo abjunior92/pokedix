@@ -1,3 +1,4 @@
+import { EmojiSadIcon } from "@heroicons/react/solid";
 import { ActionFunction, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Pokemon } from "lib/pokemon";
@@ -25,7 +26,14 @@ export default () => {
   return (
     <>
       <SearchBar />
-      <PokemonElements pokemons={pokemonFiltered} />
+      {pokemonFiltered?.length > 0 ? (
+        <PokemonElements pokemons={pokemonFiltered} />
+      ) : (
+        <div className="w-full flex flex-col items-center justify-center space-y-8">
+          <EmojiSadIcon className="w-24 h-24 dark:text-s-dark" />
+          <p className="">No results found</p>
+        </div>
+      )}
     </>
   );
 };
