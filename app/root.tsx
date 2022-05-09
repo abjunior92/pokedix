@@ -1,4 +1,4 @@
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
   Link,
   Links,
@@ -20,6 +20,26 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: styles }];
 };
+
+export const meta: MetaFunction = () => ({
+  charset: "utf-8",
+  title: "Pokémon App!",
+  "og:image": "../public/preview.png",
+  "og:title": "Pokémon App!",
+  "og:url": "https://poke-dix.netlify.app/",
+  "og:description": "A simple Pokédex app built with Remix JS",
+  "og:type": "website",
+  "og:image:alt": "Pokémon App!",
+  "twitter:card": "summary_large_image",
+  "twitter:title": "Pokémon App!",
+  "twitter:url": "https://poke-dix.netlify.app/",
+  "twitter:description": "A simple Pokédex app built with Remix JS",
+  "twitter:image": "../public/preview.png",
+  "twitter:image:alt": "Pokémon App!",
+  "twitter:creator": "Andrea Junior Berselli",
+  viewport: "width=device-width,initial-scale=1",
+  description: "A simple Pokédex app built with Remix JS"
+});
 
 function Document({
   children,
