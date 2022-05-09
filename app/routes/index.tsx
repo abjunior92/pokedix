@@ -1,9 +1,4 @@
-import {
-  LoaderFunction,
-  MetaFunction,
-  ActionFunction,
-  redirect
-} from "@remix-run/node";
+import { LoaderFunction, ActionFunction, redirect } from "@remix-run/node";
 import { Link, useLoaderData, useLocation } from "@remix-run/react";
 import { Pokemon, PokemonStructure } from "lib/pokemon";
 import { useEffect, useMemo, useState } from "react";
@@ -21,26 +16,6 @@ export const action: ActionFunction = async ({ request }: { request: any }) => {
   const searchedPokemon = formData.get("filtered");
   return redirect(`/${searchedPokemon}`);
 };
-
-export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "Pokémon App!",
-  "og:image": "./public/preview.png",
-  "og:title": "Pokémon App!",
-  "og:url": "https://poke-dix.netlify.app/",
-  "og:description": "A simple Pokédex app built with Remix JS",
-  "og:type": "website",
-  "og:image:alt": "Pokémon App!",
-  "twitter:card": "summary_large_image",
-  "twitter:title": "Pokémon App!",
-  "twitter:url": "https://poke-dix.netlify.app/",
-  "twitter:description": "A simple Pokédex app built with Remix JS",
-  "twitter:image": "./public/preview.png",
-  "twitter:image:alt": "Pokémon App!",
-  "twitter:creator": "Andrea Junior Berselli",
-  viewport: "width=device-width,initial-scale=1",
-  description: "A simple Pokédex app built with Remix JS"
-});
 
 // If you want to download images from api, you can use this function:
 function usePokemonImage(name: string) {
