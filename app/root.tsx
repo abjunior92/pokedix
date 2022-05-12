@@ -53,6 +53,10 @@ function Document({
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="google-site-verification"
+          content="uKWb6x3jOGOyfwL9_P4sHu6sUXsMW5vpX6KmNEOWWSs"
+        />
         {title && <title>{title}</title>}
         <Meta />
         <Links />
