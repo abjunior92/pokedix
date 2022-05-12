@@ -20,9 +20,25 @@ export interface PokemonDetails {
   order: number;
   abilities: string[];
   types: string[];
+  evolution_chain: PokemonEvolutionChain;
 }
 
-export interface PokemonValueUnit {
+export type PokemonValueUnit = {
   value: number;
   unit: string;
+};
+
+export function isPokemonValueUnit(obj: any): obj is PokemonValueUnit {
+  return obj && obj?.value && obj?.unit;
+}
+
+export interface PokemonEvolutionChain {
+  evolves_to: PokemonEvolutionChain[];
+  species: Pokemon;
+}
+
+export function isPokemonEvolutionChain(
+  obj: any
+): obj is PokemonEvolutionChain {
+  return obj && obj?.evolves_to && obj?.species;
 }

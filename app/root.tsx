@@ -223,7 +223,7 @@ function Layout({
 
 export default function App() {
   return (
-    <Document>
+    <Document title="PokèDix">
       <Layout>
         <Outlet />
       </Layout>

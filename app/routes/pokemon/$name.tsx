@@ -1,7 +1,14 @@
+import { ArrowNarrowRightIcon } from "@heroicons/react/solid";
 import { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import { Pokemon, PokemonDetails, PokemonValueUnit } from "lib/pokemon";
-import { useMemo } from "react";
+import {
+  isPokemonEvolutionChain,
+  isPokemonValueUnit,
+  PokemonDetails,
+  PokemonEvolutionChain,
+  PokemonValueUnit
+} from "lib/pokemon";
+import { Fragment, ReactNode, useCallback, useMemo } from "react";
 import { getPokemonDetails } from "~/endpoints/pokemon-fetch";
 import { formatUnits } from "~/utilities/formatUnits";
 
@@ -23,6 +30,26 @@ export const meta: MetaFunction = ({ data }: { data: any }) => {
   };
 };
 
+const EvolutionChain = ({ chain }: { chain: PokemonEvolutionChain }) => {
+  return (
+    <>
+      {chain.evolves_to.map((item: PokemonEvolutionChain, index: number) => {
+        return (
+          <Fragment key={index}>
+            <span key={item.species.name} className="flex w-full">
+              {item.species.name}
+              {item.evolves_to.length > 0 && (
+                <ArrowNarrowRightIcon className="w-5 h-5 ml-2 text-center" />
+              )}
+            </span>
+            <EvolutionChain key={index} chain={chain.evolves_to[index]} />
+          </Fragment>
+        );
+      })}
+    </>
+  );
+};
+
 export default () => {
   const data = useLoaderData<PokemonDetails>();
 
@@ -41,8 +68,65 @@ export default () => {
       order: data.order,
       "base experience": data.base_experience,
       abilities: data.abilities,
-      types: data.types
+      types: data.types,
+      "evolution chain": data.evolution_chain
     }),
+    [data]
+  );
+
+  const handleOutputValue = (
+    value:
+      | PokemonValueUnit
+      | string
+      | number
+      | string[]
+      | ReactNode
+      | PokemonEvolutionChain
+  ) => {
+    if (isPokemonEvolutionChain(value)) {
+      return (
+        <div>
+          <span key={value.species.name} className="flex w-full">
+            {value.species.name}
+            {value.evolves_to.length > 0 && (
+              <ArrowNarrowRightIcon className="w-5 h-5 ml-2 text-center" />
+            )}
+          </span>
+          <EvolutionChain chain={value} />
+        </div>
+      );
+    }
+
+    if (isPokemonValueUnit(value)) {
+      return formatUnits(value?.value, value?.unit);
+    } else if (
+      Array.isArray(value) &&
+      value.every(s => typeof s === "string")
+    ) {
+      return (
+        <>
+          <ul role="list">
+            {value.map((s: string) => (
+              <li key={s}>{s}</li>
+            ))}
+          </ul>
+        </>
+      );
+    } else {
+      return value;
+    }
+  };
+
+  const memoiedHandleOutValue = useCallback(
+    (
+      val:
+        | PokemonValueUnit
+        | string
+        | number
+        | string[]
+        | ReactNode
+        | PokemonEvolutionChain
+    ) => handleOutputValue(val),
     [data]
   );
 
@@ -59,7 +143,7 @@ export default () => {
           <div className="my-2 overflow-x-auto sm:-mx-6 lg:-mx-6">
             <div className="py-2 align-middle inline-block w-full sm:px-6 lg:px-8">
               <div className="shadow overflow-x-auto border-slate-200 rounded-lg">
-                <table className="min-w-full divide-y divide-slate-100">
+                <table className="min-w-full divide-y divide-slate-100 touch-auto">
                   <thead className="bg-indigo-900">
                     <tr>
                       <th scope="col">Attribute</th>
@@ -78,9 +162,7 @@ export default () => {
                       >
                         <td className="key-td">{key}</td>
                         <td className="value-td">
-                          {value?.unit
-                            ? formatUnits(value?.value, value?.unit)
-                            : value}
+                          {memoiedHandleOutValue(value)}
                         </td>
                       </tr>
                     ))}
