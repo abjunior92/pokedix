@@ -110,11 +110,17 @@ export default function Index() {
     const op = button.getAttribute("data-nav-operation");
 
     if (op === "next") {
-      setSearchParams({ page: `${(limit + elementsOnPage) / elementsOnPage}` });
+      setSearchParams({
+        ...searchParams,
+        page: `${(limit + elementsOnPage) / elementsOnPage}`
+      });
       setOffset(offset + elementsOnPage);
       setLimit(limit + elementsOnPage);
     } else {
-      setSearchParams({ page: `${(limit - elementsOnPage) / elementsOnPage}` });
+      setSearchParams({
+        ...searchParams,
+        page: `${(limit - elementsOnPage) / elementsOnPage}`
+      });
       setOffset(offset - elementsOnPage);
       setLimit(limit - elementsOnPage);
     }
@@ -129,7 +135,7 @@ export default function Index() {
   };
 
   useEffect(() => {
-    setSearchParams({ elements: `${elementsOnPage}` });
+    setSearchParams({ ...searchParams, elements: `${elementsOnPage}` });
     setLimit(elementsOnPage * pageMultiplier);
     setOffset(limit - elementsOnPage);
   }, [elementsOnPage]);
