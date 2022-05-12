@@ -12,7 +12,7 @@ export let loader = async ({ params }: { params: any }) => {
   const pokemons = res.results.filter(({ name }) =>
     name.toLowerCase().includes(params.filtered.toLowerCase())
   );
-  return pokemons;
+  return { pokemonFiltered: pokemons, pokemons: res };
 };
 
 export const action: ActionFunction = async ({ request }: { request: any }) => {
@@ -22,10 +22,11 @@ export const action: ActionFunction = async ({ request }: { request: any }) => {
 };
 
 export default () => {
-  const pokemonFiltered = useLoaderData<Pokemon[]>();
+  const { pokemonFiltered, pokemons } = useLoaderData();
+
   return (
-    <>
-      <SearchBar />
+    <div className="grid grid-flow-row gap-y-8">
+      <SearchBar allPokemons={pokemons} />
       {pokemonFiltered?.length > 0 ? (
         <PokemonElements pokemons={pokemonFiltered} />
       ) : (
@@ -34,6 +35,6 @@ export default () => {
           <p className="">No results found</p>
         </div>
       )}
-    </>
+    </div>
   );
 };
