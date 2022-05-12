@@ -55,6 +55,7 @@ function usePokemonImage(name: string) {
 }
 
 export const PokemonElements = memo(({ pokemons }: { pokemons: Pokemon[] }) => {
+  const location = useLocation();
   // const image = usePokemonImage(poke.name);
 
   return (
@@ -69,7 +70,8 @@ export const PokemonElements = memo(({ pokemons }: { pokemons: Pokemon[] }) => {
         <motion.li key={poke.url} className="relative" variants={anim_item}>
           <Link
             to={{
-              pathname: `/pokemon/${poke.name}`
+              pathname: `/pokemon/${poke.name}`,
+              search: location.search
             }}
           >
             <div className="div-img-list">
@@ -90,14 +92,11 @@ export const PokemonElements = memo(({ pokemons }: { pokemons: Pokemon[] }) => {
 export default function Index() {
   const pokemonData = useLoaderData<PokemonStructure>();
 
-  const [searchParams, setSearchParams] = useSearchParams({
-    page: "1",
-    elements: "20"
-  });
-  const pageMultiplier: number = +searchParams.getAll("page")[0];
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pageMultiplier: number = +searchParams.getAll("page")[0] || 1;
 
   const [elementsOnPage, setElementsOnPage] = useState<number>(
-    +searchParams.getAll("elements")[0]
+    +searchParams.getAll("elements")[0] || 20
   );
 
   const [limit, setLimit] = useState(elementsOnPage * pageMultiplier);
@@ -111,14 +110,14 @@ export default function Index() {
 
     if (op === "next") {
       setSearchParams({
-        ...searchParams,
+        elements: searchParams.getAll("elements")[0],
         page: `${(limit + elementsOnPage) / elementsOnPage}`
       });
       setOffset(offset + elementsOnPage);
       setLimit(limit + elementsOnPage);
     } else {
       setSearchParams({
-        ...searchParams,
+        elements: searchParams.getAll("elements")[0],
         page: `${(limit - elementsOnPage) / elementsOnPage}`
       });
       setOffset(offset - elementsOnPage);
@@ -135,7 +134,10 @@ export default function Index() {
   };
 
   useEffect(() => {
-    setSearchParams({ ...searchParams, elements: `${elementsOnPage}` });
+    setSearchParams({
+      page: `${pageMultiplier}`,
+      elements: `${elementsOnPage}`
+    });
     setLimit(elementsOnPage * pageMultiplier);
     setOffset(limit - elementsOnPage);
   }, [elementsOnPage]);
