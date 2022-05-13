@@ -5,7 +5,7 @@
   "license": "",
   "sideEffects": false,
   "scripts": {
-    "build": "cross-env NODE_ENV=production npm run build:css && remix build",
+    "build": "cross-env NODE_ENV=production && npm run build:css && remix build",
     "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/tailwind.css",
     "dev": "cross-env NODE_ENV=development concurrently \"npm run dev:css\" \"netlify dev\"",
     "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/tailwind.css",
