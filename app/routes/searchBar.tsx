@@ -1,11 +1,11 @@
 import { SearchIcon } from "@heroicons/react/solid";
-import { Form, useFetcher } from "@remix-run/react";
+import { Form } from "@remix-run/react";
 import { memo, useState } from "react";
 import isEqual from "react-fast-compare";
 import { PokemonStructure } from "lib/pokemon";
 
 const SearchBar = ({ allPokemons }: { allPokemons: PokemonStructure }) => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState<string>("");
 
   return (
     <>

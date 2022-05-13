@@ -117,7 +117,7 @@ export default () => {
     }
   };
 
-  const memoiedHandleOutValue = useCallback(
+  const memoizedHandleOutValue = useCallback(
     (
       val:
         | PokemonValueUnit
@@ -131,7 +131,7 @@ export default () => {
   );
 
   return (
-    <div className="grid xl:grid-cols-2 gap-8">
+    <div className="grid gap-8">
       <div className="div-img-details">
         <img
           src={`/pokemonSVG/${data.id}.svg`}
@@ -162,7 +162,7 @@ export default () => {
                       >
                         <td className="key-td">{key}</td>
                         <td className="value-td">
-                          {memoiedHandleOutValue(value)}
+                          {memoizedHandleOutValue(value)}
                         </td>
                       </tr>
                     ))}
