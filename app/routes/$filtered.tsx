@@ -1,7 +1,6 @@
 import { EmojiSadIcon } from "@heroicons/react/solid";
 import { ActionFunction, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { Pokemon } from "lib/pokemon";
 import { getAllPokemons } from "~/endpoints/pokemon-fetch";
 import { PokemonElements } from ".";
 import SearchBar from "./searchBar";

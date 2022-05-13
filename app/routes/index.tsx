@@ -147,66 +147,78 @@ export default function Index() {
     [pokemonData, offset, limit, elementsOnPage]
   );
 
+  const PaginationComponent = useMemo(() => {
+    return (
+      <div className="flex flex-row justify-between space-x-8 items-center py-8 mt-4 border-t-2 border-indigo-100 dark:border-btn-dark">
+        <button
+          className="btn-pagination"
+          data-nav-operation="previous"
+          onClick={handlePagination}
+          disabled={pageMultiplier === 1}
+        >
+          <ChevronLeftIcon className="w-6 h-6 mr-2" aria-hidden="true" />
+          Previous
+        </button>
+        <button
+          className="btn-pagination"
+          data-nav-operation="next"
+          onClick={handlePagination}
+          disabled={limit >= pokemonData.results.length}
+        >
+          Next
+          <ChevronRightIcon className="w-6 h-6 ml-2" aria-hidden="true" />
+        </button>
+      </div>
+    );
+  }, [pageMultiplier, limit, pokemonData]);
+
+  const ChooseElementsComponent = useMemo(() => {
+    return (
+      <div className="flex flex-row space-x-4 justify-start items-center py-6">
+        <label>Elements:</label>
+        <div className="inline-flex rounded-md shadow-sm" role="group">
+          <button
+            type="button"
+            className={`button-side-l-group ${
+              elementsOnPage === 20 ? "button-group-active" : ""
+            }`}
+            onClick={() => setElementsOnPage(20)}
+          >
+            20
+          </button>
+          <button
+            type="button"
+            className={`button-center-group ${
+              elementsOnPage === 40 ? "button-group-active" : ""
+            }`}
+            onClick={() => setElementsOnPage(40)}
+          >
+            40
+          </button>
+          <button
+            type="button"
+            className={`button-side-r-group ${
+              elementsOnPage === 60 ? "button-group-active" : ""
+            }`}
+            onClick={() => setElementsOnPage(60)}
+          >
+            60
+          </button>
+        </div>
+      </div>
+    );
+  }, [elementsOnPage]);
+
   return (
     <>
       <div className="grid grid-flow-row gap-y-4">
         <SearchBar allPokemons={pokemonData} />
 
-        <div className="flex flex-row space-x-4 justify-start items-center py-6">
-          <label>Elements:</label>
-          <div className="inline-flex rounded-md shadow-sm" role="group">
-            <button
-              type="button"
-              className={`button-side-l-group ${
-                elementsOnPage === 20 ? "button-group-active" : ""
-              }`}
-              onClick={() => setElementsOnPage(20)}
-            >
-              20
-            </button>
-            <button
-              type="button"
-              className={`button-center-group ${
-                elementsOnPage === 40 ? "button-group-active" : ""
-              }`}
-              onClick={() => setElementsOnPage(40)}
-            >
-              40
-            </button>
-            <button
-              type="button"
-              className={`button-side-r-group ${
-                elementsOnPage === 60 ? "button-group-active" : ""
-              }`}
-              onClick={() => setElementsOnPage(60)}
-            >
-              60
-            </button>
-          </div>
-        </div>
+        {ChooseElementsComponent}
 
         <PokemonElements pokemons={memoizedPokemonList} />
 
-        <div className="flex flex-row justify-between space-x-8 items-center py-8 mt-4 border-t-2 border-indigo-100 dark:border-btn-dark">
-          <button
-            className="btn-pagination"
-            data-nav-operation="previous"
-            onClick={handlePagination}
-            disabled={pageMultiplier === 1}
-          >
-            <ChevronLeftIcon className="w-6 h-6 mr-2" aria-hidden="true" />
-            Previous
-          </button>
-          <button
-            className="btn-pagination"
-            data-nav-operation="next"
-            onClick={handlePagination}
-            disabled={limit >= pokemonData.results.length}
-          >
-            Next
-            <ChevronRightIcon className="w-6 h-6 ml-2" aria-hidden="true" />
-          </button>
-        </div>
+        {PaginationComponent}
       </div>
     </>
   );
