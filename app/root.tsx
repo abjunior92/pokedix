@@ -18,7 +18,10 @@ import { ChevronLeftIcon, HomeIcon } from "@heroicons/react/solid";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: styles }];
+  return [
+    { rel: "stylesheet", href: styles },
+    { rel: "icon", href: "/favicon.png" }
+  ];
 };
 
 export const meta: MetaFunction = () => ({
