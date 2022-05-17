@@ -53,19 +53,21 @@ const EvolutionChain = memo(
                 }}
                 className="evolution-card"
               >
-                <div className="evolution-img-card">
-                  <img
-                    className="w-24 h-24"
-                    src={`/pokemonSVG/${idByUrl}.svg`}
-                    alt=""
-                  />
+                <div className="basis-1/2">
+                  <div className="evolution-img-card">
+                    <img
+                      className="w-16 h-16 lg:w-24 lg:h-24"
+                      src={`/pokemonSVG/${idByUrl}.svg`}
+                      alt=""
+                    />
+                  </div>
                 </div>
-                <div>
-                  <h5 className="text-xl font-medium text-gray-900 dark:text-s-dark">
+                <div className="basis-1/4 flex justify-start">
+                  <h5 className="text-sm lg:text-xl font-medium text-gray-900 dark:text-s-dark">
                     {item.species.name}
                   </h5>
                 </div>
-                <div className="w-full">
+                <div className="basis-1/4 flex justify-center">
                   <ArrowNarrowRightIcon className="text-indigo-900 dark:text-indigo-400 w-6 h-6" />
                 </div>
               </Link>
@@ -194,7 +196,7 @@ export default () => {
       {data.evolution_chain && (
         <div className="w-full">
           <h3>Evolution chain</h3>
-          <div className="flex flex-col space-y-8 sm:flex-row sm:space-x-8 sm:space-y-0">
+          <div className="flex flex-col space-y-8 md:flex-row md:space-x-8 md:space-y-0">
             <Link
               to={{
                 pathname: `/pokemon/${data.evolution_chain.species.name}`,
@@ -202,19 +204,21 @@ export default () => {
               }}
               className="evolution-card"
             >
-              <div className="evolution-img-card">
-                <img
-                  className="w-24 h-24"
-                  src={`/pokemonSVG/${idByUrl}.svg`}
-                  alt=""
-                />
+              <div className="basis-1/2">
+                <div className="evolution-img-card">
+                  <img
+                    className="w-16 h-16 lg:w-24 lg:h-24"
+                    src={`/pokemonSVG/${idByUrl}.svg`}
+                    alt=""
+                  />
+                </div>
               </div>
-              <div>
-                <h5 className="text-xl font-medium text-gray-900 dark:text-s-dark">
+              <div className="basis-1/4 flex justify-start">
+                <h5 className="text-sm lg:text-xl font-medium text-gray-900 dark:text-s-dark">
                   {data.evolution_chain.species.name}
                 </h5>
               </div>
-              <div className="w-full">
+              <div className="basis-1/4 flex justify-center">
                 <ArrowNarrowRightIcon className="text-indigo-900 dark:text-indigo-400 w-6 h-6" />
               </div>
             </Link>
