@@ -148,6 +148,9 @@ export default () => {
     [data]
   );
 
+  const hasEvolutionChain =
+    data.evolution_chain && data.evolution_chain.evolves_to.length > 0;
+
   return (
     <div className="flex flex-col py-10">
       <div className="grid xl:grid-cols-2 gap-8 mb-4">
@@ -193,10 +196,10 @@ export default () => {
           </div>
         </div>
       </div>
-      {data.evolution_chain && (
+      {hasEvolutionChain && (
         <div className="w-full">
-          <h3>Evolution chain</h3>
-          <div className="flex flex-col space-y-8 md:flex-row md:space-x-8 md:space-y-0">
+          <h3>🔗 Evolution chain</h3>
+          <div className="grid grid-flow-row gap-y-8 md:grid-cols-3 md:gap-x-8 md:gap-y-8">
             <Link
               to={{
                 pathname: `/pokemon/${data.evolution_chain.species.name}`,
